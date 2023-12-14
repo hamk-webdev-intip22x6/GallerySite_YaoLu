@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+<div class="col-md-12">
+
+    <div class="card bg-light text-dark">
+        <img src="{{ post.image.url }}" alt="{{ post.description }}" class="card-img-top" />
+        <div class="card-body">
+            <p class="card-text">{{ post.description }}</p>
+
+            <p class="card-text"><strong>Posted by:</strong> {{ post.user.username }}</p>
+
+            <p class="card-text"><strong>Published on:</strong> {{ post.pub_date }}</p>
+
+            <p class="card-text"><strong>Last modified:</strong> {{ post.mod_date }}</p>
+
+            {% if post.tags %}
+                <p class="card-text"><strong>Tags:</strong> {{ post.tags }}</p>
+            {% endif %}
+
+            {% if user.id == post.user.id%}
+                <form method="post" action="{% url 'gallery:detail' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                </form>
+            {% endif %}
+        </div>
+        <div class="card-footer bg-secondary text-light">
+            <p class="card-text"><a href={% url "gallery:display_images" %} class="text-light">back to homepage</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
